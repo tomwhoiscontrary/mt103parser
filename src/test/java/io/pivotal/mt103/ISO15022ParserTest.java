@@ -5,10 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -103,61 +100,61 @@ public class ISO15022ParserTest {
 
     @Test
     public void parsesEmptyMessage() throws Exception {
-        assertThat(ISO15022Parser.parse(""), equalTo(blocks()));
+        assertThat(ISO15022Parser.parse(""), equalTo(block()));
     }
 
     @Test
     public void parsesEmptyBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{}"), equalTo(blocks(block())));
+        assertThat(ISO15022Parser.parse("{}"), equalTo(block()));
     }
 
     @Test
     public void parsesMultipleEmptyBlocks() throws Exception {
-        assertThat(ISO15022Parser.parse("{}{}{}"), equalTo(blocks(block(), block(), block())));
+        assertThat(ISO15022Parser.parse("{}{}{}"), equalTo(block()));
     }
 
     @Test
     public void parsesTagAndValueInBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:value}"), equalTo(blocks(block("tag", "value"))));
+        assertThat(ISO15022Parser.parse("{tag:value}"), equalTo(block(field("tag", "value"))));
     }
 
     @Test
     public void acceptsEmptyTag() throws Exception {
-        assertThat(ISO15022Parser.parse("{:value}"), equalTo(blocks(block("", "value"))));
+        assertThat(ISO15022Parser.parse("{:value}"), equalTo(block(field("", "value"))));
     }
 
     @Test
     public void acceptsEmptyValue() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:}"), equalTo(blocks(block("tag", ""))));
+        assertThat(ISO15022Parser.parse("{tag:}"), equalTo(block(field("tag", ""))));
     }
 
     @Test
     public void parsesSubBlocks() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:{foo:bar}{baz:qux}}"), equalTo(blocks(block("tag", blocks(block("foo", "bar"), block("baz", "qux"))))));
+        assertThat(ISO15022Parser.parse("{tag:{foo:bar}{baz:qux}}"), equalTo(block(field("tag", block(field("foo", "bar"), field("baz", "qux"))))));
     }
 
     @Test
     public void parsesEmptyMessageBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\r\n-}"), equalTo(blocks(block("tag", block()))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n-}"), equalTo(block(field("tag", block()))));
     }
 
     @Test
     public void parsesMessageBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\n:baz:qux\r\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar"), field("baz", "qux"))))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\n:baz:qux\r\n-}"), equalTo(block(field("tag", block(field("foo", "bar"), field("baz", "qux"))))));
     }
 
     @Test
     public void parsesMultilineField() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\nbaz\r\nqux\r\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar\nbaz\nqux"))))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\nbaz\r\nqux\r\n-}"), equalTo(block(field("tag", block(field("foo", "bar\nbaz\nqux"))))));
     }
 
     @Test
     public void parsesJohnDaviesExample() throws Exception {
-        assertThat(ISO15022Parser.parse(johnDaviesExample), equalTo(blocks(
-                block("1", "F01MIDLGB22AXXX0548034693"),
-                block("2", "I103BKTRUS33XBRDN3"),
-                block("3", blocks(block("108", "MT103"))),
-                block("4", block(
+        assertThat(ISO15022Parser.parse(johnDaviesExample), equalTo(block(
+                field("1", "F01MIDLGB22AXXX0548034693"),
+                field("2", "I103BKTRUS33XBRDN3"),
+                field("3", block(field("108", "MT103"))),
+                field("4", block(
                         field("20", "8861198-0706"),
                         field("23B", "CRED"),
                         field("32A", "000612USD5443,99"),
@@ -176,11 +173,14 @@ public class ISO15022ParserTest {
 
     @Test
     public void parsesPetrStodulkaExample() throws Exception {
-        assertThat(ISO15022Parser.parse(petrStodulkaExample), equalTo(blocks(
-                block("1", "F01TESTBIC12XXX0360105154"),
-                block("2", "O5641057130214TESTBIC34XXX26264938281302141757N"),
-                block("3", blocks(block("103", "CAD"), block("108", "2RDRQDHM3WO"))),
-                block("4", block(
+        assertThat(ISO15022Parser.parse(petrStodulkaExample), equalTo(block(
+                field("1", "F01TESTBIC12XXX0360105154"),
+                field("2", "O5641057130214TESTBIC34XXX26264938281302141757N"),
+                field("3", block(
+                        field("103", "CAD"),
+                        field("108", "2RDRQDHM3WO")
+                )),
+                field("4", block(
                         field("20C", ":CORP//1234567890123456"),
                         field("20C", ":SEME//9876543210987654"),
                         field("23G", "NEWM"),
@@ -240,7 +240,7 @@ public class ISO15022ParserTest {
                         field("70E", ":ADTX//PAYMENT UPON RECEIPT OF FUNDS - \nTIMELY PAYMENT EXPECTED"),
                         field("16S", "ADDINFO")
                 )),
-                block("5", blocks(block("CHK", "C77F8E009597")))
+                field("5", block(field("CHK", "C77F8E009597")))
         )));
     }
 
@@ -260,19 +260,6 @@ public class ISO15022ParserTest {
     @Test
     public void parsesNestedSequencedFields() throws Exception {
         Assert.fail("advanced case of 16R/16S stuff");
-    }
-
-    @SafeVarargs
-    private static List<Map<String, Object>> blocks(Map<String, Object>... blocks) {
-        return Arrays.asList(blocks);
-    }
-
-    private static Map<String, Object> block() {
-        return Collections.emptyMap();
-    }
-
-    private static Map<String, Object> block(String tag, Object value) {
-        return Collections.singletonMap(tag, value);
     }
 
     @SafeVarargs

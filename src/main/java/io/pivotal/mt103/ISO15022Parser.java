@@ -21,19 +21,18 @@ public class ISO15022Parser {
     private static final char TOKEN_END_MESSAGE_BLOCK = '-';
     private static final String MULTILINE_STRING_JOINER = "\n";
 
-    public static List<Map<String, Object>> parse(String message) throws IOException, ParseException {
+    public static Map<String, Object> parse(String message) throws IOException, ParseException {
         try (CountingReader in = new CountingReader(new PushbackReader(new StringReader(message)))) {
             return readBlocks(in, TOKEN_EOF);
         }
     }
 
-    // TODO: should we merge these blocks into a single map? do they ever have multiple keys?
-    private static List<Map<String, Object>> readBlocks(CountingReader in, int endToken) throws IOException, ParseException {
-        List<Map<String, Object>> blocks = new ArrayList<>();
+    private static Map<String, Object> readBlocks(CountingReader in, int endToken) throws IOException, ParseException {
+        Map<String, Object> blocks = new HashMap<>();
         while (true) {
             int ch = in.peek();
             if (ch == TOKEN_START_BLOCK) {
-                blocks.add(readBlock(in));
+                blocks.putAll(readBlock(in));
             } else if (ch == endToken) {
                 return blocks;
             } else {
