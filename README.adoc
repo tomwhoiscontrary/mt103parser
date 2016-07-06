@@ -1,0 +1,7 @@
+An attempt at parsing SWIFT MT103 files.
+
+This was written to validate the dire warnings issued by John Davies in his white paper http://www.immagic.com/eLibrary/ARCHIVES/GENERAL/IONA_IE/I070510D.pdf[Parsing a SWIFT Message].
+
+Props are due to Petr Stodulka for his fine blog post http://coding.pstodulka.com/2015/01/10/anatomy-of-a-swift-message/[Anatomy of a SWIFT message].
+
+The understanding of the MT103 format was derived largely by the application of the third eye, so all errors and omissions are those of the author, not either of the authors mentioned above.
