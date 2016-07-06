@@ -21,22 +21,22 @@ public class ISO15022ParserTest {
      * <p>
      * http://www.immagic.com/eLibrary/ARCHIVES/GENERAL/IONA_IE/I070510D.pdf
      */
-    String johnDaviesExample = "{1:F01MIDLGB22AXXX0548034693}{2:I103BKTRUS33XBRDN3}{3:{108:MT103}}{4:\n" +
-            ":20:8861198-0706\n" +
-            ":23B:CRED\n" +
-            ":32A:000612USD5443,99\n" +
-            ":33B:USD5443,99\n" +
-            ":50K:GIAN ANGELO IMPORTS\n" +
-            "NAPLES\n" +
-            ":52A:BCITITMM500\n" +
-            ":53A:BCITUS33\n" +
-            ":54A:IRVTUS3N\n" +
-            ":57A:BNPAFRPPGRE\n" +
-            ":59:/20041010050500001M02606\n" +
-            "KILLY S.A.\n" +
-            "GRENOBLE\n" +
-            ":70:/RFB/INVOICE 559661\n" +
-            ":71A:SHA\n" +
+    String johnDaviesExample = "{1:F01MIDLGB22AXXX0548034693}{2:I103BKTRUS33XBRDN3}{3:{108:MT103}}{4:\r\n" +
+            ":20:8861198-0706\r\n" +
+            ":23B:CRED\r\n" +
+            ":32A:000612USD5443,99\r\n" +
+            ":33B:USD5443,99\r\n" +
+            ":50K:GIAN ANGELO IMPORTS\r\n" +
+            "NAPLES\r\n" +
+            ":52A:BCITITMM500\r\n" +
+            ":53A:BCITUS33\r\n" +
+            ":54A:IRVTUS3N\r\n" +
+            ":57A:BNPAFRPPGRE\r\n" +
+            ":59:/20041010050500001M02606\r\n" +
+            "KILLY S.A.\r\n" +
+            "GRENOBLE\r\n" +
+            ":70:/RFB/INVOICE 559661\r\n" +
+            ":71A:SHA\r\n" +
             "-}";
 
     /**
@@ -44,61 +44,61 @@ public class ISO15022ParserTest {
      * <p>
      * http://coding.pstodulka.com/2015/01/10/anatomy-of-a-swift-message/
      */
-    String petrStodulkaExample = "{1:F01TESTBIC12XXX0360105154}{2:O5641057130214TESTBIC34XXX26264938281302141757N}{3:{103:CAD}{108:2RDRQDHM3WO}}{4:\n" +
-            ":16R:GENL\n" +
-            ":20C::CORP//1234567890123456\n" +
-            ":20C::SEME//9876543210987654\n" +
-            ":23G:NEWM\n" +
-            ":22F::CAEV//INTR\n" +
-            ":22F::CAMV//MAND\n" +
-            ":98C::PREP//20220202105733\n" +
-            ":25D::PROC//ENTL\n" +
-            ":16S:GENL\n" +
-            ":16R:USECU\n" +
-            ":35B:ISIN CH0101010101\n" +
-            "/XS/232323232\n" +
-            "FINANCIAL INSTRUMENT ACME\n" +
-            ":16R:FIA\n" +
-            ":22F::MICO//A007\n" +
-            ":16S:FIA\n" +
-            ":16R:ACCTINFO\n" +
-            ":97A::SAFE//99999\n" +
-            ":94F::SAFE//NCSD/TESTBIC0ABC\n" +
-            ":93B::ELIG//FAMT/500000,\n" +
-            ":93B::SETT//FAMT/500000,\n" +
-            ":16S:ACCTINFO\n" +
-            ":16S:USECU\n" +
-            ":16R:CADETL\n" +
-            ":98A::ANOU//20220113\n" +
-            ":98A::RDTE//20220113\n" +
-            ":69A::INPE//20220214/20220214\n" +
-            ":99A::DAAC//360\n" +
-            ":92K::INTR//UKWN\n" +
-            ":22F::ADDB//CAPA\n" +
-            ":16S:CADETL\n" +
-            ":16R:CAOPTN\n" +
-            ":13A::CAON//001\n" +
-            ":22F::CAOP//CASH\n" +
-            ":11A::OPTN//USD\n" +
-            ":17B::DFLT//Y\n" +
-            ":16R:CASHMOVE\n" +
-            ":22H::CRDB//CRED\n" +
-            ":22H::CONT//ACTU\n" +
-            ":97A::CASH//89898\n" +
-            ":19B::ENTL//USD3333,\n" +
-            ":19B::TXFR//USD3333,\n" +
-            ":19B::NETT//USD3333,\n" +
-            ":98A::PAYD//20220214\n" +
-            ":98A::VALU//20220214\n" +
-            ":98A::EARL//20220214\n" +
-            ":92A::INTP//0,75\n" +
-            ":92A::TAXR//0,\n" +
-            ":16S:CASHMOVE\n" +
-            ":16S:CAOPTN\n" +
-            ":16R:ADDINFO\n" +
-            ":70E::ADTX//PAYMENT UPON RECEIPT OF FUNDS - \n" +
-            "TIMELY PAYMENT EXPECTED\n" +
-            ":16S:ADDINFO\n" +
+    String petrStodulkaExample = "{1:F01TESTBIC12XXX0360105154}{2:O5641057130214TESTBIC34XXX26264938281302141757N}{3:{103:CAD}{108:2RDRQDHM3WO}}{4:\r\n" +
+            ":16R:GENL\r\n" +
+            ":20C::CORP//1234567890123456\r\n" +
+            ":20C::SEME//9876543210987654\r\n" +
+            ":23G:NEWM\r\n" +
+            ":22F::CAEV//INTR\r\n" +
+            ":22F::CAMV//MAND\r\n" +
+            ":98C::PREP//20220202105733\r\n" +
+            ":25D::PROC//ENTL\r\n" +
+            ":16S:GENL\r\n" +
+            ":16R:USECU\r\n" +
+            ":35B:ISIN CH0101010101\r\n" +
+            "/XS/232323232\r\n" +
+            "FINANCIAL INSTRUMENT ACME\r\n" +
+            ":16R:FIA\r\n" +
+            ":22F::MICO//A007\r\n" +
+            ":16S:FIA\r\n" +
+            ":16R:ACCTINFO\r\n" +
+            ":97A::SAFE//99999\r\n" +
+            ":94F::SAFE//NCSD/TESTBIC0ABC\r\n" +
+            ":93B::ELIG//FAMT/500000,\r\n" +
+            ":93B::SETT//FAMT/500000,\r\n" +
+            ":16S:ACCTINFO\r\n" +
+            ":16S:USECU\r\n" +
+            ":16R:CADETL\r\n" +
+            ":98A::ANOU//20220113\r\n" +
+            ":98A::RDTE//20220113\r\n" +
+            ":69A::INPE//20220214/20220214\r\n" +
+            ":99A::DAAC//360\r\n" +
+            ":92K::INTR//UKWN\r\n" +
+            ":22F::ADDB//CAPA\r\n" +
+            ":16S:CADETL\r\n" +
+            ":16R:CAOPTN\r\n" +
+            ":13A::CAON//001\r\n" +
+            ":22F::CAOP//CASH\r\n" +
+            ":11A::OPTN//USD\r\n" +
+            ":17B::DFLT//Y\r\n" +
+            ":16R:CASHMOVE\r\n" +
+            ":22H::CRDB//CRED\r\n" +
+            ":22H::CONT//ACTU\r\n" +
+            ":97A::CASH//89898\r\n" +
+            ":19B::ENTL//USD3333,\r\n" +
+            ":19B::TXFR//USD3333,\r\n" +
+            ":19B::NETT//USD3333,\r\n" +
+            ":98A::PAYD//20220214\r\n" +
+            ":98A::VALU//20220214\r\n" +
+            ":98A::EARL//20220214\r\n" +
+            ":92A::INTP//0,75\r\n" +
+            ":92A::TAXR//0,\r\n" +
+            ":16S:CASHMOVE\r\n" +
+            ":16S:CAOPTN\r\n" +
+            ":16R:ADDINFO\r\n" +
+            ":70E::ADTX//PAYMENT UPON RECEIPT OF FUNDS - \r\n" +
+            "TIMELY PAYMENT EXPECTED\r\n" +
+            ":16S:ADDINFO\r\n" +
             "-}{5:{CHK:C77F8E009597}}";
 
     @Test
@@ -138,17 +138,17 @@ public class ISO15022ParserTest {
 
     @Test
     public void parsesEmptyMessageBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\n-}"), equalTo(blocks(block("tag", block()))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n-}"), equalTo(blocks(block("tag", block()))));
     }
 
     @Test
     public void parsesMessageBlock() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\n:foo:bar\n:baz:qux\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar"), field("baz", "qux"))))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\n:baz:qux\r\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar"), field("baz", "qux"))))));
     }
 
     @Test
     public void parsesMultilineField() throws Exception {
-        assertThat(ISO15022Parser.parse("{tag:\n:foo:bar\nbaz\nqux\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar\nbaz\nqux"))))));
+        assertThat(ISO15022Parser.parse("{tag:\r\n:foo:bar\r\nbaz\r\nqux\r\n-}"), equalTo(blocks(block("tag", block(field("foo", "bar\nbaz\nqux"))))));
     }
 
     @Test

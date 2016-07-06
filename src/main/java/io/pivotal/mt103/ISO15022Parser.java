@@ -16,8 +16,10 @@ public class ISO15022Parser {
     private static final char TOKEN_START_BLOCK = '{';
     private static final char TOKEN_END_BLOCK = '}';
     private static final char TOKEN_TAG_SEPARATOR = ':';
-    private static final char TOKEN_FIELD_SEPARATOR = '\n';
+    private static final char TOKEN_FIELD_SEPARATOR_1 = '\r';
+    private static final char TOKEN_FIELD_SEPARATOR_2 = '\n';
     private static final char TOKEN_END_MESSAGE_BLOCK = '-';
+    private static final String MULTILINE_STRING_JOINER = "\n";
 
     public static List<Map<String, Object>> parse(String message) throws IOException, ParseException {
         try (CountingReader in = new CountingReader(new PushbackReader(new StringReader(message)))) {
@@ -54,8 +56,8 @@ public class ISO15022Parser {
             int ch = in.peek();
             if (ch == TOKEN_START_BLOCK) {
                 value = readBlocks(in, TOKEN_END_BLOCK);
-            } else if (ch == TOKEN_FIELD_SEPARATOR) {
-                consume(in, TOKEN_FIELD_SEPARATOR);
+            } else if (ch == TOKEN_FIELD_SEPARATOR_1) {
+                consume(in, TOKEN_FIELD_SEPARATOR_1, TOKEN_FIELD_SEPARATOR_2);
                 value = readMessageBlock(in);
             } else {
                 value = readString(in, TOKEN_END_BLOCK);
@@ -93,8 +95,8 @@ public class ISO15022Parser {
         List<String> lines = new ArrayList<>();
 
         while (true) {
-            lines.add(readString(in, TOKEN_FIELD_SEPARATOR));
-            consume(in, TOKEN_FIELD_SEPARATOR);
+            lines.add(readString(in, TOKEN_FIELD_SEPARATOR_1));
+            consume(in, TOKEN_FIELD_SEPARATOR_1, TOKEN_FIELD_SEPARATOR_2);
 
             int ch = in.peek();
             if (endTokensList.contains((char) ch)) {
@@ -102,7 +104,7 @@ public class ISO15022Parser {
             }
         }
 
-        return String.join("\n", lines);
+        return String.join(MULTILINE_STRING_JOINER, lines);
     }
 
     private static String readString(CountingReader in, char endToken) throws IOException, ParseException {
@@ -120,10 +122,12 @@ public class ISO15022Parser {
         }
     }
 
-    private static void consume(CountingReader in, char token) throws IOException, ParseException {
-        int ch = in.read();
-        if (ch != token) {
-            throw newParseException("unexpected token (expected '" + token + "')", (char) ch, in);
+    private static void consume(CountingReader in, char... tokens) throws IOException, ParseException {
+        for (char token : tokens) {
+            int ch = in.read();
+            if (ch != token) {
+                throw newParseException("unexpected token (expected '" + token + "')", (char) ch, in);
+            }
         }
     }
 
