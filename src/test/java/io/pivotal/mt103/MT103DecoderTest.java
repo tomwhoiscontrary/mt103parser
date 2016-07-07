@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.hasKey;
 
-public class MT103ParserTest {
+public class MT103DecoderTest {
 
     private String rawInstruction = "{1:F01CATEGB21XXXX0000000000}{2:I103RBOSGB2LXGPLN2020}{4:\r\n" +
             ":20:160216000141234\r\n" +
@@ -30,7 +30,7 @@ public class MT103ParserTest {
 
     @Test
     public void parsesInstruction() throws Exception {
-        Map<String, Object> instruction = MT103Parser.parse(rawInstruction);
+        Map<String, Object> instruction = MT103Decoder.parse(rawInstruction);
 
         assertThat(instruction, hasEntry("bank", "CATEGB21XXXX"));
 

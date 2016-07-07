@@ -1,7 +1,7 @@
 package io.pivotal.mt103;
 
 import java.io.IOException;
-import java.io.PushbackReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -22,9 +22,17 @@ public class ISO15022Parser {
     private static final String MULTILINE_STRING_JOINER = "\n";
 
     public static Map<String, Object> parse(String message) throws IOException, ParseException {
-        try (CountingReader in = new CountingReader(new PushbackReader(new StringReader(message)))) {
-            return readBlocks(in, TOKEN_EOF);
-        }
+        return parse(new StringReader(message));
+    }
+
+    public static Map<String, Object> parse(Reader input) throws IOException, ParseException {
+        return readBlocks(new CountingReader(input), TOKEN_EOF);
+    }
+
+    public static Map<String, Object> parseOne(CountingReader input, char terminator) throws IOException, ParseException {
+        Map<String, Object> blocks = readBlocks(input, terminator);
+        consume(input, terminator);
+        return blocks;
     }
 
     private static Map<String, Object> readBlocks(CountingReader in, int endToken) throws IOException, ParseException {

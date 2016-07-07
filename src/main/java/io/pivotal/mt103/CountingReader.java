@@ -13,6 +13,10 @@ class CountingReader extends Reader {
         this.in = in;
     }
 
+    public CountingReader(Reader in) {
+        this(new PushbackReader(in));
+    }
+
     public int getCount() {
         return count;
     }

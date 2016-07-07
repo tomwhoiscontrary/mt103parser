@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.StringReader;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -260,6 +261,15 @@ public class ISO15022ParserTest {
     @Test
     public void parsesNestedSequencedFields() throws Exception {
         Assert.fail("advanced case of 16R/16S stuff");
+    }
+
+    @Test
+    public void parsesMultipleMessages() throws Exception {
+        CountingReader in = new CountingReader(new StringReader("{1:foo}${2:bar}${3:baz}$"));
+
+        assertThat(ISO15022Parser.parseOne(in, '$'), equalTo(block(field("1", "foo"))));
+        assertThat(ISO15022Parser.parseOne(in, '$'), equalTo(block(field("2", "bar"))));
+        assertThat(ISO15022Parser.parseOne(in, '$'), equalTo(block(field("3", "baz"))));
     }
 
     @SafeVarargs

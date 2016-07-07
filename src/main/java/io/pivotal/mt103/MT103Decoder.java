@@ -8,12 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class MT103Parser {
+public class MT103Decoder {
 
     public static Map<String, Object> parse(String instructionString) throws IOException, ParseException {
-        Map<String, Object> instructionData = ISO15022Parser.parse(instructionString);
+        return decode(ISO15022Parser.parse(instructionString));
+    }
 
-        HashMap<String, Object> instruction = new HashMap<>();
+    public static Map<String, Object> decode(Map<String, Object> instructionData) {
+        Map<String, Object> instruction = new HashMap<>();
 
         String basicHeader = getEntry(instructionData, "1");
         String sourceTerminalAddress = basicHeader.substring(3, 15);
